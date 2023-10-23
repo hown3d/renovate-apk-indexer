@@ -6,14 +6,18 @@ on:
 
 name: Create Release
 
-permissions:
-  actions: read   # To read the workflow path.
-  id-token: write # To sign the provenance.
 
 jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    # Default GITHUB_TOKEN token permissions do NOT support cosign and must be enabled.
+    # This is to set the package and id_token permissions to read|write.
+    # Current default permissions can be viewed here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token
+    permissions:
+      packages: write
+      id-token: write # To sign the image.
+      contents: write # To store the image
     steps:
       - uses: actions/checkout@v3
       - uses: "./.github/actions/container-image"
