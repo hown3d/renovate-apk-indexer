@@ -5,7 +5,7 @@ inputs:
   tag:
     description: "tag for the container image"
     required: false
-    default: ${{ github.ref }}
+    default: ${{ github.ref_name }}
 
 outputs:
   ref:
