@@ -1,6 +1,6 @@
 module github.com/hown3d/renovate-apk-indexer
 
-go 1.21.0
+go 1.21
 
 require (
 	github.com/gofiber/fiber/v2 v2.50.0
