@@ -7,6 +7,9 @@ on:
 name: Create Release
 
 jobs:
+  permissions:
+    actions: read   # To read the workflow path.
+    id-token: write # To sign the provenance.
   release:
     name: Create Release
     runs-on: ubuntu-latest
