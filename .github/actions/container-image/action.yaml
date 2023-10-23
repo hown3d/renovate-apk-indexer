@@ -8,7 +8,9 @@ inputs:
     default: ${{ github.ref }}
 
 outputs:
-  ref: ${{ steps.ko-build.outputs.ref }}
+  ref:
+    description: "Container image reference from ko build"
+    value: ${{ steps.ko-build.outputs.ref }}
 
 description: "build container image with ko"
 runs:
