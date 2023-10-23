@@ -13,10 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: "./.github/actions/container-image"
+        id: container-image
       - uses: sigstore/cosign-installer@v3.1.1
       - run: cosign sign --yes $REF
         env:
-          REF: ${{ steps.ko-build.outputs.ref }}
+          REF: ${{ steps.container-image.outputs.ref }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
