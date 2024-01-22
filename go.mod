@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/gofiber/fiber/v2 v2.51.0
-	gitlab.alpinelinux.org/alpine/go v0.8.0
+	gitlab.alpinelinux.org/alpine/go v0.9.0
 )
 
 require (
