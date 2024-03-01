@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
+    "github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/hown3d/renovate-apk-indexer/pkg/apk"
 	"github.com/hown3d/renovate-apk-indexer/pkg/renovate"
 	"net/http"
@@ -43,6 +44,7 @@ func main() {
 	}()
 
 	app := fiber.New()
+	app.Use(healthcheck.New())
 	app.Get("/:package", func(c *fiber.Ctx) error {
 		packageName := c.Params("package")
 		packages, ok := apkPackages[packageName]
