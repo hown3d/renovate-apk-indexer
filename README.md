@@ -22,3 +22,7 @@ The server provides one single endpoint `/<PACKAGE_NAME>`, which returns the pac
 ## APK Index updates
 
 By default, the server updates it's packages every 4 hours.
+
+## Healthchecks
+
+Liveness and Readiness probe endpoints are available at `/livez` and `/readyz`.
