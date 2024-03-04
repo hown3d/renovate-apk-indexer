@@ -3,7 +3,7 @@ module github.com/hown3d/renovate-apk-indexer
 go 1.21
 
 require (
-	github.com/gofiber/fiber/v2 v2.52.1
+	github.com/gofiber/fiber/v2 v2.52.2
 	gitlab.alpinelinux.org/alpine/go v0.9.0
 )
 
