@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.2
-	gitlab.alpinelinux.org/alpine/go v0.9.0
+	gitlab.alpinelinux.org/alpine/go v0.10.1
 )
 
 require (
@@ -19,6 +19,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
