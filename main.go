@@ -3,13 +3,15 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
-    "github.com/gofiber/fiber/v2/middleware/healthcheck"
-	"github.com/hown3d/renovate-apk-indexer/pkg/apk"
-	"github.com/hown3d/renovate-apk-indexer/pkg/renovate"
 	"net/http"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
+	"github.com/gofiber/fiber/v2/middleware/healthcheck"
+	"github.com/hown3d/renovate-apk-indexer/pkg/apk"
+	"github.com/hown3d/renovate-apk-indexer/pkg/renovate"
+	"gitlab.alpinelinux.org/alpine/go/repository"
 )
 
 const wolfiIndex = "https://packages.wolfi.dev/os/x86_64/APKINDEX.tar.gz"
@@ -52,6 +54,20 @@ func main() {
 			return fmt.Errorf("%s not found in wolfi apkIndex", packageName)
 		}
 		datasource := renovate.TransformAPKPackage(packages)
+		return c.JSON(datasource)
+	})
+
+	app.Get("/wildcard/:package", func(c *fiber.Ctx) error {
+		packageName := c.Params("package")
+		matchedPackages := apk.WildcardMatchPackageMap(apkPackages, packageName)
+		var packageList []*repository.Package
+		for _, packages := range matchedPackages {
+			packageList = append(packageList, packages...)
+		}
+		if len(packageList) == 0 {
+			return fmt.Errorf("%s not found in wolfi apkIndex", packageName)
+		}
+		datasource := renovate.TransformAPKPackage(packageList)
 		return c.JSON(datasource)
 	})
 

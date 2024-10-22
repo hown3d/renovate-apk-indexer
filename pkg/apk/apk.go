@@ -3,9 +3,12 @@ package apk
 import (
 	"errors"
 	"fmt"
-	"gitlab.alpinelinux.org/alpine/go/repository"
 	"io"
 	"net/http"
+	"regexp"
+	"strings"
+
+	"gitlab.alpinelinux.org/alpine/go/repository"
 )
 
 type Context struct {
@@ -57,4 +60,62 @@ func getPackagesMap(packages []*repository.Package) map[string][]*repository.Pac
 		packageMap[p.Name] = append(packageMap[p.Name], p)
 	}
 	return packageMap
+}
+
+func WildcardMatchPackageMap(apkPackages map[string][]*repository.Package, wildcardString string) map[string][]*repository.Package {
+	matchedPackages := make(map[string][]*repository.Package)
+
+	packageNames := getPackageNamesFromWildcard(apkPackages, wildcardString)
+
+	for key, packageList := range apkPackages {
+		for _, packageName := range packageNames {
+
+			if key == packageName {
+				//if strings.HasPrefix(key, packageName) {
+				matchedPackages[packageName] = append(matchedPackages[packageName], packageList...)
+				for _, p := range packageList {
+					fmt.Printf("Got package from apkindex: %s-%s using '%s' as key\n", key, p.Version, key)
+				}
+			}
+		}
+	}
+	return matchedPackages
+}
+
+// gets all package names that match the wildcard
+// wildcard is only for versions, which means it won't check for packages with a longer suffix
+// e.g. the wildcard 'argo-cd-*' will match the package "argo-cd-2.12", but not "argo-cd-2.12-repo-server"
+// e.g. the wildcard 'argo-cd-*-repo-server' will match the package "argo-cd-2.12-repo-server"
+func getPackageNamesFromWildcard(apkPackages map[string][]*repository.Package, wildcardString string) []string {
+	// Check if the pattern contains "*"
+	if strings.Contains(wildcardString, "*") {
+		// Extract the prefix before "*"
+		parts := strings.Split(wildcardString, "*")
+		prefix := parts[0]
+		suffix := parts[1]
+
+		// Perform prefix match
+		matched := []string{}
+		for key := range apkPackages {
+			if strings.HasPrefix(key, prefix) {
+				if suffix == "" {
+					// Match items that end with a number
+					if match, _ := regexp.MatchString(`\d+$`, key); match {
+						matched = append(matched, key)
+					}
+				} else {
+					// Match items that end with the inferred suffix
+					if strings.HasSuffix(key, suffix) {
+						matched = append(matched, key)
+					}
+				}
+			}
+		}
+
+		fmt.Printf("wildcardString '%s' matched following packages: %s\n", wildcardString, matched)
+		return matched
+	} else {
+		fmt.Printf("wildcardString '%s' did not match packages '*'\n", wildcardString)
+		return []string{wildcardString}
+	}
 }
