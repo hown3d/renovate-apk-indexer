@@ -41,14 +41,14 @@ nodejs-20
 nodejs-22
 ```
 
-To use the wildcard version endpoint, you can provide a single '*' at the point where the renovate-apk-indexer should expect a version number. Be aware that this will ~skip~ the base-package-name if there is no suffix on the wildcard string. This is a technical limitation, see explaination at `/wildcardVersion/argo-cd*`
+To use the wildcard version endpoint, you can provide a single '*' at the point where the renovate-apk-indexer should expect a version number. Be aware that this will skip the base-package-name if there is no suffix on the wildcard string. This is a technical limitation, see explaination at `/wildcardVersion/argo-cd*`
 
 | Endpoint Request                  | Expected package name searches                                                                                                                                                                                                                      |
 |-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| /wildcardVersion/argo-cd*         | will only match argo-cd-<number>, not argo-cd or argo-cd-<number>-compat  This is a technical limitation to prevent the regex to match argo-cd-compat. If the suffix of the wildcard is empty it won't consider "non-number" matches for the suffix |
-| /wildcardVersion/argo-cd*compat   | will only match argo-cd-<number>-compat and argo-cd-compat                                                                                                                                                                                          |
-| /wildcardVersion/argo-cd-*-compat | will only match argo-cd-<number>-compat and argo-cd-compat                                                                                                                                                                                          |
-| /wildcardVersion/nodejs*          | will only match nodejs-<number>, not nodejs.  This is a technical limitation, see explaination of `/wildcardVersion/argo-cd*`                                                                                                                       |
+| `/wildcardVersion/argo-cd*`         | will only match `argo-cd-<number>`, not `argo-cd` or `argo-cd-<number>-compat`  This is a technical limitation to prevent the regex to match argo-cd-compat. If the suffix of the wildcard is empty it won't consider "non-number" matches for the suffix |
+| `/wildcardVersion/argo-cd*compat`   | will only match `argo-cd-<number>-compat` and argo-cd-compat                                                                                                                                                                                          |
+| `/wildcardVersion/argo-cd-*-compat` | will only match `argo-cd-<number>-compat` and argo-cd-compat                                                                                                                                                                                          |
+| `/wildcardVersion/nodejs*`          | will only match `nodejs-<number>`, not `nodejs`.  This is a technical limitation, see explaination of `/wildcardVersion/argo-cd*`                                                                                                                       |
 
 
 ## APK Index updates
