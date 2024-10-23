@@ -1,3 +1,42 @@
+C:Q1jwwX0eTCFR8CbyoDI4z4KOYpIf0=
+P:argo-cd
+V:2.7.9-r2
+A:x86_64
+S:33082736
+I:103990338
+T:Declarative continuous deployment for Kubernetes.
+L:Apache-2.0
+o:argo-cd
+t:1690302336
+c:ebdbc978a6a4875743c640e191e85b476d6f4bcc
+p:cmd:argocd=2.7.9-r2
+
+C:Q1nXSqeI8XIXh8EXSmxS8IsRYV90w=
+P:argo-cd-compat
+V:2.8.0-r1
+A:x86_64
+S:33959464
+I:107312646
+T:Compatibility package for locating binaries according to upstream helm charts
+L:Apache-2.0
+o:argo-cd
+t:1692036549
+c:a82a88d6908aca83f90d9e355fde72323d45999e
+
+C:Q1qmPx7VhH71SG7mkyZsbyEqzEktE=
+P:argo-cd-repo-server
+V:2.8.0-r1
+A:x86_64
+S:3270
+I:32949
+T:ArgoCD repo server
+L:Apache-2.0
+o:argo-cd
+t:1692036549
+c:a82a88d6908aca83f90d9e355fde72323d45999e
+D:argo-cd-compat git git-lfs gnupg gpg gpg-agent helm kustomize openssh-server tzdata
+p:cmd:git-verify-wrapper.sh=2.8.0-r1 cmd:gpg-wrapper.sh=2.8.0-r1
+
 C:Q1ml7NtHfmvbE1ruKwonCzeja6fhM=
 P:argo-cd-2.11
 V:2.11.7-r0

@@ -93,6 +93,9 @@ func Test_prefixPackageName(t *testing.T) {
 				prefix: "argo-cd-*-repo-server",
 			},
 			want: map[string][]string{
+				"argo-cd-repo-server": {
+					"2.8.0-r1",
+				},
 				"argo-cd-2.11-repo-server": {
 					"2.11.7-r0",
 				},
