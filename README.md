@@ -17,7 +17,39 @@ Usage of renovate-apk-indexer:
 
 ## API
 
-The server provides one single endpoint `/<PACKAGE_NAME>`, which returns the package information of `<PACKAGE_NAME>` in the [format that renovate custom datasources expects](https://docs.renovatebot.com/modules/datasource/custom/)
+The server provides an endpoint for `/<PACKAGE_NAME>`, which returns the package information of `<PACKAGE_NAME>` in the [format that renovate custom datasources expects](https://docs.renovatebot.com/modules/datasource/custom/)
+
+### Wildcard Version API
+
+An additional endpoint is provided at `/wildcardVersion/<PACKAGE_NAME_WITH_WILDCARD_VERSION>`. The wolfi APK index uses an unusual naming scheme where the version is provided within the package name, it is not easily possible for renovate to track version updates for those packages:
+
+E.g. These are all valid package names in the wolfi APK index. Note that the base name without the number does not necessarily contain the most recent version:
+```
+argo-cd
+argo-cd-compat
+argo-cd-repo-server
+argo-cd-2.9
+argo-cd-2.9-compat
+argo-cd-2.9-repo-server
+argo-cd-2.10
+argo-cd-2.10-compat
+argo-cd-2.10-repo-server
+
+nodejs
+nodejs-18
+nodejs-20
+nodejs-22
+```
+
+To use the wildcard version endpoint, you can provide a single '*' at the point where the renovate-apk-indexer should expect a version number. Be aware that this will ~skip~ the base-package-name if there is no suffix on the wildcard string. This is a technical limitation, see explaination at `/wildcardVersion/argo-cd*`
+
+| Endpoint Request                  | Expected package name searches                                                                                                                                                                                                                      |
+|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /wildcardVersion/argo-cd*         | will only match argo-cd-<number>, not argo-cd or argo-cd-<number>-compat  This is a technical limitation to prevent the regex to match argo-cd-compat. If the suffix of the wildcard is empty it won't consider "non-number" matches for the suffix |
+| /wildcardVersion/argo-cd*compat   | will only match argo-cd-<number>-compat and argo-cd-compat                                                                                                                                                                                          |
+| /wildcardVersion/argo-cd-*-compat | will only match argo-cd-<number>-compat and argo-cd-compat                                                                                                                                                                                          |
+| /wildcardVersion/nodejs*          | will only match nodejs-<number>, not nodejs.  This is a technical limitation, see explaination of `/wildcardVersion/argo-cd*`                                                                                                                       |
+
 
 ## APK Index updates
 
