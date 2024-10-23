@@ -57,7 +57,7 @@ func main() {
 		return c.JSON(datasource)
 	})
 
-	app.Get("/wildcard/:package", func(c *fiber.Ctx) error {
+	app.Get("/wildcardVersion/:package", func(c *fiber.Ctx) error {
 		packageName := c.Params("package")
 		matchedPackages := apk.WildcardMatchPackageMap(apkPackages, packageName)
 		var packageList []*repository.Package
