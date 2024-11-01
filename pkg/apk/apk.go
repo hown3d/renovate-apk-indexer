@@ -63,23 +63,9 @@ func getPackagesMap(packages []*repository.Package) map[string][]*repository.Pac
 }
 
 func WildcardMatchPackageMap(apkPackages map[string][]*repository.Package, wildcardString string) map[string][]*repository.Package {
-	matchedPackages := make(map[string][]*repository.Package)
-
 	packageNames := getPackageNamesFromWildcard(apkPackages, wildcardString)
 
-	for key, packageList := range apkPackages {
-		for _, packageName := range packageNames {
-
-			if key == packageName {
-				//if strings.HasPrefix(key, packageName) {
-				matchedPackages[packageName] = append(matchedPackages[packageName], packageList...)
-				for _, p := range packageList {
-					fmt.Printf("Got package from apkindex: %s-%s using '%s' as key\n", key, p.Version, key)
-				}
-			}
-		}
-	}
-	return matchedPackages
+	return collectPackageVersionsByPackageNames(apkPackages, packageNames)
 }
 
 // gets all package names that match the wildcard
@@ -96,11 +82,12 @@ func getPackageNamesFromWildcard(apkPackages map[string][]*repository.Package, w
 
 		// Perform prefix match
 		matched := []string{}
+		var isNumberRegex = regexp.MustCompile(`\d+$`)
 		for key := range apkPackages {
 			if strings.HasPrefix(key, prefix) {
 				if suffix == "" {
 					// Match items that end with a number
-					if match, _ := regexp.MatchString(`\d+$`, key); match {
+					if match := isNumberRegex.MatchString(key); match {
 						matched = append(matched, key)
 					}
 				} else {
@@ -114,8 +101,24 @@ func getPackageNamesFromWildcard(apkPackages map[string][]*repository.Package, w
 
 		fmt.Printf("wildcardString '%s' matched following packages: %s\n", wildcardString, matched)
 		return matched
-	} else {
-		fmt.Printf("wildcardString '%s' did not match packages '*'\n", wildcardString)
-		return []string{wildcardString}
 	}
+	fmt.Printf("wildcardString '%s' did not match packages '*'\n", wildcardString)
+	return []string{wildcardString}
+}
+
+func collectPackageVersionsByPackageNames(apkPackages map[string][]*repository.Package, packageNames []string) map[string][]*repository.Package {
+	matchedPackages := make(map[string][]*repository.Package)
+	for key, packageList := range apkPackages {
+		for _, packageName := range packageNames {
+
+			if key == packageName {
+				//if strings.HasPrefix(key, packageName) {
+				matchedPackages[packageName] = append(matchedPackages[packageName], packageList...)
+				for _, p := range packageList {
+					fmt.Printf("Got package from apkindex: %s-%s using '%s' as key\n", key, p.Version, key)
+				}
+			}
+		}
+	}
+	return matchedPackages
 }
