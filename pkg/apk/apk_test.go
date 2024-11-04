@@ -28,6 +28,14 @@ func Test_prefixPackageName(t *testing.T) {
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
+			name: "no matching packages",
+			args: args{
+				prefix: "nodej",
+			},
+			want:    map[string][]string{},
+			wantErr: assert.NoError,
+		},
+		{
 			name: "all packages from package name",
 			args: args{
 				prefix: "nodejs",
@@ -121,7 +129,7 @@ func Test_prefixPackageName(t *testing.T) {
 			}
 			fmt.Println("Packages: ", packages)
 
-			got := WildcardMatchPackageMap(packages, tt.args.prefix)
+			got := FilterPackagesByWildcard(packages, tt.args.prefix)
 			fmt.Println("Got: ", got)
 
 			versionMap := make(map[string][]string, 0)

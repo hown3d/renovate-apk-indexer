@@ -59,7 +59,7 @@ func main() {
 
 	app.Get("/wildcardVersion/:package", func(c *fiber.Ctx) error {
 		packageName := c.Params("package")
-		matchedPackages := apk.WildcardMatchPackageMap(apkPackages, packageName)
+		matchedPackages := apk.FilterPackagesByWildcard(apkPackages, packageName)
 		var packageList []*repository.Package
 		for _, packages := range matchedPackages {
 			packageList = append(packageList, packages...)

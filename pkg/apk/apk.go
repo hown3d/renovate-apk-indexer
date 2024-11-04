@@ -62,17 +62,14 @@ func getPackagesMap(packages []*repository.Package) map[string][]*repository.Pac
 	return packageMap
 }
 
-func WildcardMatchPackageMap(apkPackages map[string][]*repository.Package, wildcardString string) map[string][]*repository.Package {
-	packageNames := getPackageNamesFromWildcard(apkPackages, wildcardString)
-
-	return collectPackageVersionsByPackageNames(apkPackages, packageNames)
-}
-
 // gets all package names that match the wildcard
 // wildcard is only for versions, which means it won't check for packages with a longer suffix
 // e.g. the wildcard 'argo-cd-*' will match the package "argo-cd-2.12", but not "argo-cd-2.12-repo-server"
 // e.g. the wildcard 'argo-cd-*-repo-server' will match the package "argo-cd-2.12-repo-server"
-func getPackageNamesFromWildcard(apkPackages map[string][]*repository.Package, wildcardString string) []string {
+func FilterPackagesByWildcard(apkPackages map[string][]*repository.Package, wildcardString string) map[string][]*repository.Package {
+
+	matchedPackages := make(map[string][]*repository.Package)
+
 	// Check if the pattern contains "*"
 	if strings.Contains(wildcardString, "*") {
 		// Extract the prefix before "*"
@@ -81,44 +78,29 @@ func getPackageNamesFromWildcard(apkPackages map[string][]*repository.Package, w
 		suffix := parts[1]
 
 		// Perform prefix match
-		matched := []string{}
 		var isNumberRegex = regexp.MustCompile(`\d+$`)
-		for key := range apkPackages {
-			if strings.HasPrefix(key, prefix) {
+		for packageName, apkPackageRepos := range apkPackages {
+			if strings.HasPrefix(packageName, prefix) {
 				if suffix == "" {
 					// Match items that end with a number
-					if match := isNumberRegex.MatchString(key); match {
-						matched = append(matched, key)
+					if match := isNumberRegex.MatchString(packageName); match {
+						fmt.Printf("'%s' Matched package with prefix: %s\n", wildcardString, packageName)
+						matchedPackages[packageName] = apkPackageRepos
 					}
 				} else {
 					// Match items that end with the inferred suffix
-					if strings.HasSuffix(key, suffix) {
-						matched = append(matched, key)
+					if strings.HasSuffix(packageName, suffix) {
+						fmt.Printf("'%s' Matched package with suffix: %s\n", wildcardString, packageName)
+						matchedPackages[packageName] = apkPackageRepos
 					}
 				}
 			}
 		}
-
-		fmt.Printf("wildcardString '%s' matched following packages: %s\n", wildcardString, matched)
-		return matched
+		return matchedPackages
+	} else {
+		fmt.Printf("No wildcard detected. Trying '%s' as a direct package-name match\n", wildcardString)
+		matchedPackages[wildcardString] = apkPackages[wildcardString]
 	}
 	fmt.Printf("wildcardString '%s' did not match packages '*'\n", wildcardString)
-	return []string{wildcardString}
-}
-
-func collectPackageVersionsByPackageNames(apkPackages map[string][]*repository.Package, packageNames []string) map[string][]*repository.Package {
-	matchedPackages := make(map[string][]*repository.Package)
-	for key, packageList := range apkPackages {
-		for _, packageName := range packageNames {
-
-			if key == packageName {
-				//if strings.HasPrefix(key, packageName) {
-				matchedPackages[packageName] = append(matchedPackages[packageName], packageList...)
-				for _, p := range packageList {
-					fmt.Printf("Got package from apkindex: %s-%s using '%s' as key\n", key, p.Version, key)
-				}
-			}
-		}
-	}
 	return matchedPackages
 }
