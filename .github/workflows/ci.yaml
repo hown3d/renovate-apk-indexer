@@ -17,8 +17,8 @@ jobs:
         run: go get .
       - name: Build
         run: go build -v ./...
-      - name: Test with the Go CLI
-        run: go test
+      - name: Test
+        run: go test -v ./...
 
   govulncheck:
     runs-on: ubuntu-latest
