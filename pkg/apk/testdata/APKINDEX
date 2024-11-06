@@ -1,0 +1,271 @@
+C:Q1jwwX0eTCFR8CbyoDI4z4KOYpIf0=
+P:argo-cd
+V:2.7.9-r2
+A:x86_64
+S:33082736
+I:103990338
+T:Declarative continuous deployment for Kubernetes.
+L:Apache-2.0
+o:argo-cd
+t:1690302336
+c:ebdbc978a6a4875743c640e191e85b476d6f4bcc
+p:cmd:argocd=2.7.9-r2
+
+C:Q1nXSqeI8XIXh8EXSmxS8IsRYV90w=
+P:argo-cd-compat
+V:2.8.0-r1
+A:x86_64
+S:33959464
+I:107312646
+T:Compatibility package for locating binaries according to upstream helm charts
+L:Apache-2.0
+o:argo-cd
+t:1692036549
+c:a82a88d6908aca83f90d9e355fde72323d45999e
+
+C:Q1qmPx7VhH71SG7mkyZsbyEqzEktE=
+P:argo-cd-repo-server
+V:2.8.0-r1
+A:x86_64
+S:3270
+I:32949
+T:ArgoCD repo server
+L:Apache-2.0
+o:argo-cd
+t:1692036549
+c:a82a88d6908aca83f90d9e355fde72323d45999e
+D:argo-cd-compat git git-lfs gnupg gpg gpg-agent helm kustomize openssh-server tzdata
+p:cmd:git-verify-wrapper.sh=2.8.0-r1 cmd:gpg-wrapper.sh=2.8.0-r1
+
+C:Q1ml7NtHfmvbE1ruKwonCzeja6fhM=
+P:argo-cd-2.11
+V:2.11.7-r0
+A:x86_64
+S:39041640
+I:134296207
+T:Declarative continuous deployment for Kubernetes.
+L:Apache-2.0
+o:argo-cd-2.11
+t:1721838776
+c:4488517a79076dd12d0cc2913b70a8a65182f7d5
+p:argo-cd=2.11.7-r0 cmd:argocd=2.11.7-r0
+
+C:Q1zEysXOlR6qJDicNFFhBeEH3ONDo=
+P:argo-cd-2.11-compat
+V:2.11.7-r0
+A:x86_64
+S:39024410
+I:134300380
+T:Compatibility package for locating binaries according to upstream helm charts
+L:Apache-2.0
+o:argo-cd-2.11
+t:1721838776
+c:4488517a79076dd12d0cc2913b70a8a65182f7d5
+p:argo-cd-compat=2.11.7-r0
+
+C:Q1HYogAHGfWlRfizaRNXCsiN572mg=
+P:argo-cd-2.11-repo-server
+V:2.11.7-r0
+A:x86_64
+S:2922
+I:31655
+T:ArgoCD repo server
+L:Apache-2.0
+o:argo-cd-2.11
+t:1721838776
+c:4488517a79076dd12d0cc2913b70a8a65182f7d5
+D:argo-cd-2.11-compat git git-lfs gnupg gpg gpg-agent helm kustomize openssh tzdata
+p:argo-cd-repo-server=2.11.7-r0 cmd:git-verify-wrapper.sh=2.11.7-r0 cmd:gpg-wrapper.sh=2.11.7-r0
+
+C:Q1wJNYaFUnS4V2ck16sjinKPbOKQk=
+P:argo-cd-2.12-repo-server
+V:2.12.3-r1
+A:x86_64
+S:2912
+I:31655
+T:ArgoCD repo server
+L:Apache-2.0
+o:argo-cd-2.12
+t:1726100588
+c:1e44070a98532e0703609378fdd24ed440779b45
+D:argo-cd-2.12-compat git git-lfs gnupg gpg gpg-agent helm kustomize openssh tzdata
+p:argo-cd-repo-server=2.12.3-r1 cmd:git-verify-wrapper.sh=2.12.3-r1 cmd:gpg-wrapper.sh=2.12.3-r1
+
+C:Q1m8UUGCq8nB+gCydfFozY2iSINDE=
+P:argo-cd-2.12-repo-server
+V:2.12.4-r0
+A:x86_64
+S:2171
+I:31445
+T:ArgoCD repo server
+L:Apache-2.0
+o:argo-cd-2.12
+t:1727455783
+c:d48bd8cb9730820ad50488faeb79a0b781bfbd08
+D:argo-cd-2.12-compat git git-lfs gnupg gpg gpg-agent helm kustomize openssh tzdata
+p:argo-cd-repo-server=2.12.4-r0 cmd:git-verify-wrapper.sh=2.12.4-r0 cmd:gpg-wrapper.sh=2.12.4-r0
+
+C:Q1GDszfpTRjhOZUMK7QhQLd/nV1eE=
+P:argo-cd-2.12-compat
+V:2.12.4-r0
+A:x86_64
+S:40212842
+I:135903274
+T:Compatibility package for locating binaries according to upstream helm charts
+L:Apache-2.0
+o:argo-cd-2.12
+t:1727455783
+c:d48bd8cb9730820ad50488faeb79a0b781bfbd08
+p:argo-cd-compat=2.12.4-r0
+
+C:Q1vbtnPFpchJSQr3bRwPvKAMRyFkc=
+P:argo-cd-2.12
+V:2.12.4-r0
+A:x86_64
+S:40199293
+I:135899101
+T:Declarative continuous deployment for Kubernetes.
+L:Apache-2.0
+o:argo-cd-2.12
+t:1727455783
+c:d48bd8cb9730820ad50488faeb79a0b781bfbd08
+p:argo-cd=2.12.4-r0 cmd:argocd=2.12.4-r0
+
+C:Q15XM+NyDnV3WtzXFyyQh88ghZx4k=
+P:argo-cd-2.12
+V:2.12.6-r0
+A:x86_64
+S:40253664
+I:135915738
+T:Declarative continuous deployment for Kubernetes.
+L:Apache-2.0
+o:argo-cd-2.12
+t:1729557015
+c:a7844bfde4e215cb8cfee702878433a46db84d2a
+p:argo-cd=2.12.6-r0 cmd:argocd=2.12.6-r0
+
+C:Q13N+wcsVsYy/fUrG1DgAFKHz0noY=
+P:argo-cd-2.12-compat
+V:2.12.6-r0
+A:x86_64
+S:40305937
+I:135919911
+T:Compatibility package for locating binaries according to upstream helm charts
+L:Apache-2.0
+o:argo-cd-2.12
+t:1729557015
+c:a7844bfde4e215cb8cfee702878433a46db84d2a
+p:argo-cd-compat=2.12.6-r0
+
+C:Q1S/WCycnOQfOG29qHVP1Sqiw2gOk=
+P:argo-cd-2.12-repo-server
+V:2.12.6-r0
+A:x86_64
+S:2160
+I:31434
+T:ArgoCD repo server
+L:Apache-2.0
+o:argo-cd-2.12
+t:1729557015
+c:a7844bfde4e215cb8cfee702878433a46db84d2a
+D:argo-cd-2.12-compat git git-lfs gnupg gpg gpg-agent helm kustomize openssh tzdata
+p:argo-cd-repo-server=2.12.6-r0 cmd:git-verify-wrapper.sh=2.12.6-r0 cmd:gpg-wrapper.sh=2.12.6-r0
+
+C:Q1bP9rRE1ZmD0CyR8GX6KAWMmn2/M=
+P:nodejs
+V:18.12.1-r0
+A:x86_64
+S:16479792
+I:50242478
+T:JavaScript runtime built on V8 engine - LTS version
+L:MIT
+o:nodejs
+t:0
+D:so:ld-linux-x86-64.so.2 so:libbrotlidec.so.1 so:libbrotlienc.so.1 so:libc.so.6 so:libcrypto.so.3 so:libgcc_s.so.1 so:libicudata.so.71 so:libicui18n.so.71 so:libicuuc.so.71 so:libm.so.6 so:libnghttp2.so.14 so:libssl.so.3 so:libstdc++.so.6 so:libz.so.1
+p:cmd:node=18.12.1-r0
+
+C:Q1klBB1Ifp7hji4Mzwdi3rRn7IgjM=
+P:nodejs
+V:18.13.0-r0
+A:x86_64
+S:15824120
+I:51281482
+T:JavaScript runtime built on V8 engine - LTS version
+L:MIT
+o:nodejs
+t:0
+c:eb6885d924911d9d0ccf35905badfbe09cd8bd86
+D:so:ld-linux-x86-64.so.2 so:libbrotlidec.so.1 so:libbrotlienc.so.1 so:libc.so.6 so:libcrypto.so.3 so:libicui18n.so.71 so:libicuuc.so.71 so:libm.so.6 so:libnghttp2.so.14 so:libssl.so.3 so:libstdc++.so.6 so:libz.so.1
+p:cmd:node=18.13.0-r0
+
+C:Q10xGzQyuIXMD3BOwTI9XZHxV5gf4=
+P:nodejs-19
+V:19.8.1-r0
+A:x86_64
+S:17133914
+I:55702795
+T:JavaScript runtime built on V8 engine
+L:MIT
+o:nodejs-19
+t:0
+c:87d2247d79a4486aabebf2a9fe8cc646f3e725e5
+D:so:ld-linux-x86-64.so.2 so:libbrotlidec.so.1 so:libbrotlienc.so.1 so:libc.so.6 so:libcrypto.so.3 so:libicui18n.so.71 so:libicuuc.so.71 so:libm.so.6 so:libnghttp2.so.14 so:libssl.so.3 so:libstdc++.so.6 so:libz.so.1
+p:cmd:node=19.8.1-r0
+
+C:Q1tt5pb8CP4yJT7iNYBwkGR8Gggc4=
+P:nodejs-19
+V:19.9.0-r0
+A:x86_64
+S:17041505
+I:55285769
+T:JavaScript runtime built on V8 engine
+L:MIT
+o:nodejs-19
+t:0
+c:b2c0b1f16a3ec12a19c9fc59802b87b0e7fec1ff
+D:so:ld-linux-x86-64.so.2 so:libbrotlidec.so.1 so:libbrotlienc.so.1 so:libc.so.6 so:libcrypto.so.3 so:libicui18n.so.71 so:libicuuc.so.71 so:libm.so.6 so:libnghttp2.so.14 so:libssl.so.3 so:libstdc++.so.6 so:libz.so.1
+p:cmd:node=19.9.0-r0
+
+C:Q1HnSLzB9ZF4arg4Ly5aQcCp2Q3mw=
+P:melange-microvm-init
+V:0.11.6-r0
+P:nodejs-22
+V:22.7.0-r0
+A:x86_64
+S:23776009
+I:71971164
+T:JavaScript runtime built on V8 engine
+L:MIT
+o:nodejs-22
+t:1724353971
+c:55b41afad5cacbed2af5f2df9ec1df3d82fab8a3
+D:so:ld-linux-x86-64.so.2 so:libbrotlidec.so.1 so:libbrotlienc.so.1 so:libc.so.6 so:libcares.so.2 so:libcrypto.so.3 so:libicui18n.so.75 so:libicuuc.so.75 so:libm.so.6 so:libnghttp2.so.14 so:libssl.so.3 so:libstdc++.so.6 so:libuv.so.1 so:libz.so.1
+p:cmd:node=22.7.0-r0 nodejs=22.7.0-r0
+
+C:Q1gLIsxrLFNru5slQsWxnsYHhFP5k=
+P:nodejs-22
+V:22.8.0-r0
+A:x86_64
+S:23791297
+I:72010555
+T:JavaScript runtime built on V8 engine
+L:MIT
+o:nodejs-22
+t:1725584773
+c:9b5ff6372fb3c2c205ef89d1e6cf0552f1c6994c
+D:so:ld-linux-x86-64.so.2 so:libbrotlidec.so.1 so:libbrotlienc.so.1 so:libc.so.6 so:libcares.so.2 so:libcrypto.so.3 so:libicui18n.so.75 so:libicuuc.so.75 so:libm.so.6 so:libnghttp2.so.14 so:libssl.so.3 so:libstdc++.so.6 so:libuv.so.1 so:libz.so.1
+p:cmd:node=22.8.0-r0 nodejs=22.8.0-r0
+
+C:Q13hCvOYPfhIOODiPcqZNOZSAMHsY=
+P:hugo
+V:0.136.4-r0
+A:x86_64
+S:26356398
+I:82442089
+T:The world's fastest framework for building websites.
+L:Apache-2.0
+o:hugo
+t:1729595020
+c:b5d6b86d977200e10b60c00fec3ce6765dfe4673
+D:so:ld-linux-x86-64.so.2 so:libc.so.6 so:libgcc_s.so.1 so:libm.so.6 so:libstdc++.so.6
+p:cmd:hugo=0.136.4-r0
