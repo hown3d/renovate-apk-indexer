@@ -4,7 +4,6 @@ go 1.21
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/google/go-containerregistry v0.20.2
 	github.com/stretchr/testify v1.9.0
 	gitlab.alpinelinux.org/alpine/go v0.10.1
 )
@@ -12,7 +11,6 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
-	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
@@ -30,5 +28,6 @@ require (
 	github.com/valyala/fasthttp v1.55.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.21.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )
