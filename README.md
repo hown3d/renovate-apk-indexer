@@ -21,7 +21,7 @@ Renovate gitlab-job (abbreviated):
 ```yaml
 renovate:
   services:
-    - name: ghcr.io/hown3d/renovate-apk-indexer:v0.0.3
+    - name: ghcr.io/hown3d/renovate-apk-indexer:v0.0.2
       alias: wolfi-apk
   script:
     - renovate
