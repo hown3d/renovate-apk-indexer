@@ -15,6 +15,50 @@ Usage of renovate-apk-indexer:
         update interval of the apk package index in hours (default 4)
 ```
 
+## Renovate Gitlab example
+
+Renovate gitlab-job (abbreviated):
+```yaml
+renovate:
+  services:
+    - name: ghcr.io/hown3d/renovate-apk-indexer:v0.0.2
+      alias: wolfi-apk
+  script:
+    - renovate
+```
+
+Use it in your renovate.json as a custom datasource:
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customDatasources": {
+    "wolfi": {
+      "defaultRegistryUrlTemplate": "http://wolfi-apk:3000/wildcardVersion/{{packageName}}"
+    }
+  }
+}
+```
+
+Usage in code:
+```bash
+# renovate: datasource=custom.wolfi depName=argo-cd
+VERSION=2.13.1-r0
+apk update && apk add argo-cd=$VERSION
+```
+
+Renovate should now be able to detect updates for the specified dependency.
+Note that versioned package names can be detected with the `wildcardVersion` API. For more Details look at [Wildcard Version API](#wildcard-version-api):
+
+```bash
+# renovate: datasource=custom.wolfi depName=argo-cd-*
+VERSION=2.13.1-r0
+apk update && apk add argo-cd=$VERSION
+
+# renovate: datasource=custom.wolfi depName=argo-cd-*-repo-server
+VERSION=2.13.1-r0
+apk update && apk add argo-cd-repo-server=$VERSION
+```
+
 ## API
 
 The server provides an endpoint for `/<PACKAGE_NAME>`, which returns the package information of `<PACKAGE_NAME>` in the [format that renovate custom datasources expects](https://docs.renovatebot.com/modules/datasource/custom/)
