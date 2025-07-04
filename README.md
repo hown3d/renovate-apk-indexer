@@ -18,6 +18,7 @@ Usage of renovate-apk-indexer:
 ## Renovate Gitlab example
 
 Renovate gitlab-job (abbreviated):
+
 ```yaml
 renovate:
   services:
@@ -28,18 +29,20 @@ renovate:
 ```
 
 Use it in your renovate.json as a custom datasource:
+
 ```json
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "customDatasources": {
     "wolfi": {
-      "defaultRegistryUrlTemplate": "http://wolfi-apk:3000/wildcardVersion/{{packageName}}"
+      "defaultRegistryUrlTemplate": "http://wolfi-apk:3000/{{packageName}}"
     }
   }
 }
 ```
 
 Usage in code:
+
 ```bash
 # renovate: datasource=custom.wolfi depName=argo-cd
 VERSION=2.13.1-r0
@@ -68,6 +71,7 @@ The server provides an endpoint for `/<PACKAGE_NAME>`, which returns the package
 An additional endpoint is provided at `/wildcardVersion/<PACKAGE_NAME_WITH_WILDCARD_VERSION>`. The wolfi APK index uses an unusual naming scheme where the version is provided within the package name, it is not easily possible for renovate to track version updates for those packages:
 
 E.g. These are all valid package names in the wolfi APK index. Note that the base name without the number does not necessarily contain the most recent version:
+
 ```
 argo-cd
 argo-cd-compat
@@ -94,7 +98,6 @@ To use the wildcard version endpoint, you can provide a single '*' at the point 
 | `/wildcardVersion/argo-cd-*-compat` | will only match `argo-cd-<number>-compat` and argo-cd-compat                                                                                                                                                                                          |
 | `/wildcardVersion/nodejs*`          | will only match `nodejs-<number>`, not `nodejs`.  This is a technical limitation, see explaination of `/wildcardVersion/argo-cd*`                                                                                                                       |
 
-
 ## APK Index updates
 
 By default, the server updates it's packages every 4 hours.
@@ -102,3 +105,4 @@ By default, the server updates it's packages every 4 hours.
 ## Healthchecks
 
 Liveness and Readiness probe endpoints are available at `/livez` and `/readyz`.
+
