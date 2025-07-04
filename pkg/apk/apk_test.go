@@ -1,155 +1,100 @@
 package apk
 
 import (
-	"errors"
-	"fmt"
-	"io"
-	"log"
-	"os"
+	"embed"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"gitlab.alpinelinux.org/alpine/go/repository"
 )
 
-type ResultPackages struct {
-	PackageNames []string
-	VersionList  []string
-}
+//go:embed testdata
+var testdata embed.FS
 
-func Test_prefixPackageName(t *testing.T) {
-	type args struct {
-		prefix string
-	}
+func Test_getPackagesMap(t *testing.T) {
 	tests := []struct {
-		name    string
-		args    args
-		want    map[string][]string
-		wantErr assert.ErrorAssertionFunc
+		name     string // description of this test case
+		packages []*repository.Package
+		want     map[string][]*repository.Package
 	}{
 		{
-			name: "no matching packages",
-			args: args{
-				prefix: "nodej",
+			name: "packages with provides",
+			packages: []*repository.Package{
+				{
+					Name:    "argocd",
+					Version: "3.0",
+				},
+				{
+					Name:    "argocd-2.12",
+					Version: "2.12",
+					Provides: []string{
+						"argocd=2.12",
+					},
+				},
 			},
-			want:    map[string][]string{},
-			wantErr: assert.NoError,
+			want: map[string][]*repository.Package{
+				"argocd": {
+					{
+						Name:    "argocd",
+						Version: "3.0",
+					},
+					{
+						Name:    "argocd-2.12",
+						Version: "2.12",
+						Provides: []string{
+							"argocd=2.12",
+						},
+					},
+				},
+				"argocd-2.12": {
+					{
+						Name:    "argocd-2.12",
+						Version: "2.12",
+						Provides: []string{
+							"argocd=2.12",
+						},
+					},
+				},
+			},
 		},
 		{
-			name: "all packages from package name",
-			args: args{
-				prefix: "nodejs",
-			},
-			want: map[string][]string{
-				"nodejs": {
-					"18.12.1-r0",
-					"18.13.0-r0",
+			name: "packages with provides with cmd prefix",
+			packages: []*repository.Package{
+				{
+					Name:    "argocd",
+					Version: "3.0",
+				},
+				{
+					Name:    "argocd-2.12",
+					Version: "2.12",
+					Provides: []string{
+						"cmd:argocd=2.12",
+					},
 				},
 			},
-			wantErr: assert.NoError,
-		},
-		{
-			name: "all packages from package name with wildcard",
-			args: args{
-				prefix: "nodejs*",
-			},
-			want: map[string][]string{
-				//should not match 18, as that package does not end with a number
-				"nodejs-19": {
-					"19.8.1-r0",
-					"19.9.0-r0",
+			want: map[string][]*repository.Package{
+				"argocd": {
+					{
+						Name:    "argocd",
+						Version: "3.0",
+					},
 				},
-				"nodejs-22": {
-					"22.7.0-r0",
-					"22.8.0-r0",
-				},
-			},
-			wantErr: assert.NoError,
-		},
-		{
-			name: "specific version of package name",
-			args: args{
-				prefix: "nodejs-22",
-			},
-			want: map[string][]string{
-				"nodejs-22": {
-					"22.7.0-r0",
-					"22.8.0-r0",
+				"argocd-2.12": {
+					{
+						Name:    "argocd-2.12",
+						Version: "2.12",
+						Provides: []string{
+							"cmd:argocd=2.12",
+						},
+					},
 				},
 			},
-			wantErr: assert.NoError,
-		},
-		{
-			name: "wildcard at the end",
-			args: args{
-				prefix: "argo-cd-*",
-			},
-			want: map[string][]string{
-				"argo-cd-2.11": {
-					"2.11.7-r0",
-				},
-				"argo-cd-2.12": {
-					"2.12.4-r0",
-					"2.12.6-r0",
-				},
-			},
-			wantErr: assert.NoError,
-		},
-		{
-			name: "wildcard in the middle",
-			args: args{
-				prefix: "argo-cd-*-repo-server",
-			},
-			want: map[string][]string{
-				"argo-cd-repo-server": {
-					"2.8.0-r1",
-				},
-				"argo-cd-2.11-repo-server": {
-					"2.11.7-r0",
-				},
-				"argo-cd-2.12-repo-server": {
-					"2.12.3-r1",
-					"2.12.4-r0",
-					"2.12.6-r0",
-				},
-			},
-			wantErr: assert.NoError,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			apkindexFile, err := os.Open("testdata/APKINDEX")
-			if err != nil {
-				fmt.Println("Error opening file:", err)
-				return
-			}
-			packages, err := parseApkIndexFromTextFile(apkindexFile)
-			if err != nil {
-				log.Fatalf("error getting apk packages: %s", err)
-			}
-			fmt.Println("Packages: ", packages)
-
-			got := FilterPackagesByWildcard(packages, tt.args.prefix)
-			fmt.Println("Got: ", got)
-
-			versionMap := make(map[string][]string, 0)
-			//TODO can't only match for prefix...
-			for key, resultPackageList := range got {
-				for _, p := range resultPackageList {
-					versionMap[key] = append(versionMap[key], p.Version)
-				}
-			}
-
-			assert.EqualValuesf(t, tt.want, versionMap, "PrefixMatchPackageMap(%v)", tt.args.prefix)
+			got := getPackagesMap(tt.packages)
+			assert.Equal(t, tt.want, got)
 		})
 	}
-}
-
-func parseApkIndexFromTextFile(indexData io.ReadCloser) (map[string][]*repository.Package, error) {
-	apkIndex, err := repository.ParsePackageIndex(indexData)
-	if err != nil {
-		return nil, errors.Join(err, fmt.Errorf("failed to parse response %v", indexData))
-	}
-
-	return getPackagesMap(apkIndex), nil
 }
