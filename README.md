@@ -10,13 +10,19 @@ For every release a container image is built and stored in the github container 
 $ renovate-apk-indexer -help
 Usage of renovate-apk-indexer:
   -apk-index-url string
-        url of the apk index to get the package information from (default "https://packages.wolfi.dev/os/x86_64/APKINDEX.tar.gz")
+        comma-separated URLs of the apk indexes to get the package information from (default "https://packages.wolfi.dev/os/x86_64/APKINDEX.tar.gz")
   -log-level value
         log level (default INFO)
   -log-output string
         representation for logs (text,json) (default "text")
   -update-interval int
         update interval of the apk package index in hours (default 4)
+```
+
+You can also specify multiple comma seperate indexes for distributions with multiple repositories:
+
+```
+$ renovate-apk-indexer -apk-index-url=https://dl-cdn.alpinelinux.org/edge/main/aarch64/APKINDEX.tar.gz,https://dl-cdn.alpinelinux.org/edge/community/aarch64/APKINDEX.tar.gz,https://dl-cdn.alpinelinux.org/edge/testing/aarch64/APKINDEX.tar.gz
 ```
 
 ## Renovate Gitlab example

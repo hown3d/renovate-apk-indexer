@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/hown3d/renovate-apk-indexer/pkg/apk"
@@ -17,7 +18,7 @@ const wolfiIndex = "https://packages.wolfi.dev/os/x86_64/APKINDEX.tar.gz"
 
 var (
 	updateInterval = flag.Int("update-interval", 4, "update interval of the apk package index in hours")
-	apkIndexUrl    = flag.String("apk-index-url", wolfiIndex, "url of the apk index to get the package information from")
+	apkIndexUrls   = flag.String("apk-index-url", wolfiIndex, "comma-separated URLs of the apk indexes to get the package information from")
 	logLevel       = new(slog.Level)
 	logOutput      = flag.String("log-output", "text", "representation for logs (text,json)")
 )
@@ -42,8 +43,10 @@ func main() {
 	}
 	slog.SetDefault(l)
 
-	apkContext := apk.New(http.DefaultClient, *apkIndexUrl)
-	slog.Info("retrieving apk packages", "url", *apkIndexUrl)
+	urls := strings.Split(*apkIndexUrls, ",")
+
+	apkContext := apk.New(http.DefaultClient, urls)
+	slog.Info("retrieving apk packages", "urls", urls)
 	apkPackages, err := apkContext.GetApkPackages()
 	if err != nil {
 		slog.Error("error getting apk packages", "err", err)

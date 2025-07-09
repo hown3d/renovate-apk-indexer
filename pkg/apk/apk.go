@@ -11,42 +11,53 @@ import (
 )
 
 type Context struct {
-	client   *http.Client
-	indexURL string
+	client    *http.Client
+	indexURLs []string
 }
 
-func New(client *http.Client, indexURL string) Context {
+func New(client *http.Client, indexURLs []string) Context {
 	return Context{
-		client:   client,
-		indexURL: indexURL,
+		client:    client,
+		indexURLs: indexURLs,
 	}
 }
 
 func (c Context) GetApkPackages() (map[string][]*repository.Package, error) {
-	req, err := http.NewRequest("GET", c.indexURL, nil)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return nil, errors.Join(err, fmt.Errorf("failed getting URI %s", c.indexURL))
-	}
-	defer resp.Body.Close()
+	var packages []*repository.Package
 
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("non ok http response for URI %s code: %v", c.indexURL, resp.StatusCode)
+	for _, url := range c.indexURLs {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, err
+		}
+		resp, err := c.client.Do(req)
+		if err != nil {
+			return nil, errors.Join(err, fmt.Errorf("failed getting URI %s", url))
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("non ok http response for URI %s code: %v", url, resp.StatusCode)
+		}
+
+		ps, err := parseApkIndex(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+
+		packages = append(packages, ps...)
 	}
 
-	return parseApkIndex(resp.Body)
+	return getPackagesMap(packages), nil
 }
 
-func parseApkIndex(indexData io.ReadCloser) (map[string][]*repository.Package, error) {
+func parseApkIndex(indexData io.ReadCloser) ([]*repository.Package, error) {
 	apkIndex, err := repository.IndexFromArchive(indexData)
 	if err != nil {
 		return nil, errors.Join(err, fmt.Errorf("failed to parse response %v", indexData))
 	}
 
-	return getPackagesMap(apkIndex.Packages), nil
+	return apkIndex.Packages, nil
 }
 
 func getPackagesMap(packages []*repository.Package) map[string][]*repository.Package {
