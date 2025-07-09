@@ -1,12 +1,5 @@
 name: container-image
 
-# Were we can define the inputs that our action will accept
-inputs:
-  tag:
-    description: "tag for the container image"
-    required: false
-    default: ${{ github.ref_name }}
-
 outputs:
   ref:
     description: "Container image reference from ko build"
@@ -21,6 +14,16 @@ runs:
       with:
         go-version: '1.21.x'
     - uses: ko-build/setup-ko@v0.6
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern=v{{version}}
+        flavor: |
+          latest=false
     - shell: bash
-      run: echo "ref=$(ko build --tags ${{ inputs.tag }} --bare)" >> "$GITHUB_OUTPUT"
+      run: echo "ref=$(ko build --tags ${{ steps.meta.outputs.tags }}  --bare)" >> "$GITHUB_OUTPUT"
       id: ko-build
