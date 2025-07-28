@@ -3,7 +3,7 @@ module github.com/hown3d/renovate-apk-indexer
 go 1.24
 
 require (
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	gitlab.alpinelinux.org/alpine/go v0.10.1
 )
 
