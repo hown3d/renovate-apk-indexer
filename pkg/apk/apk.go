@@ -70,7 +70,10 @@ func getPackagesMap(packages []*repository.Package) map[string][]*repository.Pac
 				continue
 			}
 
-			name, _, _ := strings.Cut(provide, "=")
+			name, _, versioned := strings.Cut(provide, "=")
+			if !versioned {
+				continue
+			}
 			packageMap[name] = append(packageMap[name], p)
 		}
 	}
