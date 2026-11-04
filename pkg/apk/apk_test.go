@@ -90,6 +90,39 @@ func Test_getPackagesMap(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "packages with unversioned provides",
+			packages: []*repository.Package{
+				{
+					Name:    "py3-pip-wheel",
+					Version: "26.2.2-r2",
+				},
+				{
+					Name:    "py3-pip-wheel-bootstrap",
+					Version: "26.3-r0",
+					Provides: []string{
+						"py3-pip-wheel",
+					},
+				},
+			},
+			want: map[string][]*repository.Package{
+				"py3-pip-wheel": {
+					{
+						Name:    "py3-pip-wheel",
+						Version: "26.2.2-r2",
+					},
+				},
+				"py3-pip-wheel-bootstrap": {
+					{
+						Name:    "py3-pip-wheel-bootstrap",
+						Version: "26.3-r0",
+						Provides: []string{
+							"py3-pip-wheel",
+						},
+					},
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
